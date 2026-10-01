@@ -1,75 +1,107 @@
-# React + TypeScript + Vite
+# ⚓ Battleship Arena
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+**Battleship Arena** — веб-игра «Морской бой» с режимом против компьютера и онлайн-мультиплеером.
 
-Currently, two official plugins are available:
+## 🎮 Возможности
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+- Игра против компьютера
+- 3 уровня сложности AI: Easy, Medium и Hard
+- Корректная расстановка кораблей
+- Запрет пересечения и соприкосновения кораблей
+- Проверка попаданий и промахов
+- Защита от повторных выстрелов
+- Определение победителя
+- Онлайн-мультиплеер по ссылке
+- Синхронизация ходов между игроками
+- Регистрация и авторизация
+- Профиль игрока
+- Рейтинг игроков
+- История матчей
+- Статистика
+- Leaderboard
+- Trainer с рекомендациями
+- Сохранение данных пользователя
+- Адаптация интерфейса для мобильных устройств
 
-## React Compiler
+## 🤖 Искусственный интеллект
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+В игре реализованы три уровня сложности:
 
-## Expanding the ESLint configuration
+### Easy
+Компьютер выбирает случайные клетки, по которым ещё не стрелял.
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+### Medium
+Используется стратегия **Hunt & Target**:
+после попадания компьютер пытается найти соседние клетки и определить направление корабля.
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+### Hard
+Используется вероятностная оценка клеток (**probability / heatmap**) вместе с Target-стратегией.
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+## 🌐 Multiplayer
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+Онлайн-режим позволяет двум игрокам играть с разных устройств через комнату.
 
-```
+Игрок создаёт комнату и передаёт ссылку другому игроку.
 
-You can also install [eslint-plugin-react-x](https://npmx.dev/package/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://npmx.dev/package/eslint-plugin-react-dom) for React-specific lint rules:
+Для синхронизации используются:
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+- Supabase Database
+- Supabase Realtime
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+Ходы игроков сохраняются в базе данных и передаются второму игроку в реальном времени.
 
-```
+## 🗄️ Backend
+
+Для хранения данных используется **Supabase**.
+
+Используемые таблицы:
+
+- `profiles` — профили игроков, рейтинг и статистика
+- `games` — история завершённых игр
+- `rooms` — онлайн-комнаты
+- `room_moves` — ходы в онлайн-матчах
+
+Для защиты данных используются **Row Level Security (RLS)**.
+
+## 🛠️ Технологии
+
+- React
+- TypeScript
+- Vite
+- React Router
+- Supabase
+- Supabase Realtime
+- GitHub
+- Vercel
+
+## 📚 Использованные библиотеки
+
+Основные библиотеки проекта:
+
+- `react`
+- `react-dom`
+- `react-router-dom`
+- `@supabase/supabase-js`
+- `vite`
+- `typescript`
+
+## 📁 Структура проекта
+
+```text
+src/
+├── pages/
+│   ├── Game.tsx
+│   ├── Auth.tsx
+│   ├── Profile.tsx
+│   ├── History.tsx
+│   ├── Stats.tsx
+│   ├── Trainer.tsx
+│   ├── Multiplayer.tsx
+│   └── Leaderboard.tsx
+│
+├── lib/
+│   └── supabase.ts
+│
+├── App.tsx
+├── App.css
+└── index.css
